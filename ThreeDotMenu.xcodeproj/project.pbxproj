@@ -12,8 +12,6 @@
 		04655B9C1CC7659700BB309D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04655B9A1CC7659700BB309D /* Main.storyboard */; };
 		04655B9E1CC7659700BB309D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04655B9D1CC7659700BB309D /* Assets.xcassets */; };
 		04655BA11CC7659700BB309D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04655B9F1CC7659700BB309D /* LaunchScreen.storyboard */; };
-		04655BA91CC7697100BB309D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04655BA81CC7697100BB309D /* MenuView.swift */; };
-		04655BAD1CC76FB900BB309D /* MenuLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04655BAC1CC76FB900BB309D /* MenuLayer.swift */; };
 		04B648051CC875A100F3B083 /* ThreeDotButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B648041CC875A100F3B083 /* ThreeDotButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +23,6 @@
 		04655B9D1CC7659700BB309D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04655BA01CC7659700BB309D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04655BA21CC7659700BB309D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04655BA81CC7697100BB309D /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		04655BAC1CC76FB900BB309D /* MenuLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLayer.swift; sourceTree = "<group>"; };
 		04B648041CC875A100F3B083 /* ThreeDotButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreeDotButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,8 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				04655B961CC7659700BB309D /* AppDelegate.swift */,
-				04655BA81CC7697100BB309D /* MenuView.swift */,
-				04655BAC1CC76FB900BB309D /* MenuLayer.swift */,
 				04B648041CC875A100F3B083 /* ThreeDotButton.swift */,
 				04655B981CC7659700BB309D /* ViewController.swift */,
 				04655B9A1CC7659700BB309D /* Main.storyboard */,
@@ -145,10 +139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04655BAD1CC76FB900BB309D /* MenuLayer.swift in Sources */,
 				04655B991CC7659700BB309D /* ViewController.swift in Sources */,
 				04B648051CC875A100F3B083 /* ThreeDotButton.swift in Sources */,
-				04655BA91CC7697100BB309D /* MenuView.swift in Sources */,
 				04655B971CC7659700BB309D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
