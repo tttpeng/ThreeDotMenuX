@@ -9,171 +9,75 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    let layer: CAShapeLayer = CAShapeLayer()
-    let midLayer: CAShapeLayer = CAShapeLayer()
-    let rightDot: CAShapeLayer = CAShapeLayer()
-
-    var overRight: Bool = false
     
     
+    var coverView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapClick))
         
-        view.addGestureRecognizer(tap)
+        let titleLabel = UILabel()
+        titleLabel.frame = CGRectMake(15, 30, 60, 20)
+        titleLabel.text = "ToDay"
+        titleLabel.textColor = UIColor.grayColor()
+        self.view.addSubview(titleLabel)
+        
+        self.view.backgroundColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
+        
+        let line = UIView()
+        line.frame = CGRectMake(15, 64, self.view.frame.size.width - 30, 1)
+        line.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        self.view.addSubview(line)
+        
+        let button = ThreeDotButton()
+        button.frame = CGRectMake(self.view.frame.size.width - 15 - 22, 30, 22, 22)
+//        button.backgroundColor = UIColor.greenColor()
+        
+        button.addTarget(self, action: #selector(buttonTap(_:)), forControlEvents: .TouchUpInside)
+        self.view.addSubview(button)
+        
+        
+        coverView = UIView()
+        coverView.frame = CGRectMake(0, 63, self.view.frame.size.width, self.view.frame.size.height - 63)
+        coverView.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(coverView)
+        coverView.alpha = 0
+        
+        coverView.backgroundColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
 
+        let contentLabel = UILabel()
+        contentLabel.frame = CGRectMake(0,300,  coverView.frame.size.width,30);
+        contentLabel.text = "Design By Taavo"
+        contentLabel.contentMode = .Center
+        contentLabel.textAlignment = .Center
+        contentLabel.textColor = UIColor.lightGrayColor()
+        coverView.addSubview(contentLabel)
+        
 
         
-        
-        
-        let menu = MenuView(frame: self.view.frame)
-        view.addSubview(menu)
-        
-        layer.setNeedsDisplay()
-        let myBezier = UIBezierPath(roundedRect: CGRectMake(0, 0, 4, 0), cornerRadius: 10)
-        UIColor.orangeColor().setFill()
-        myBezier.fill()
-        
-        layer.frame = CGRectMake(120, 320, 4, 4)
-        layer.fillColor = UIColor.orangeColor().CGColor
-        layer.backgroundColor = UIColor.redColor().CGColor
-        layer.cornerRadius = 2;
-        layer.anchorPoint = CGPointMake(0.5, 1)
-
-        midLayer.frame = CGRectMake(127, 320, 4, 4)
-        midLayer.cornerRadius = 2
-        midLayer.backgroundColor = UIColor.redColor().CGColor
-        midLayer.anchorPoint = CGPointMake(0.5, 1)
-        
-        rightDot.frame = CGRectMake(134, 320, 4, 4)
-        rightDot.cornerRadius = 2
-        rightDot.backgroundColor = UIColor.redColor().CGColor
-        rightDot.anchorPoint = CGPointMake(0.5, 1)
-        
-        menu.layer.addSublayer(rightDot)
-        menu.layer.addSublayer(midLayer)
-        menu.layer.addSublayer(layer)
-
-        
-        
-        overRight = false
-
-        
-        let delayInSeconds = 3.0
-        let popTime = dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-//        dispatch_after(4, dispatch_get_main_queue()) {
-//            print("haha")
-//            //            myBezier.animationDidStart(basic)
-//
-//        }
 
     }
-
     
     
 
-    func tapClick()  {
+    func buttonTap(button: ThreeDotButton)  {
+        button.showsMenu = !button.showsMenu
         
-        
-        if overRight {
-            let basic3 = CABasicAnimation(keyPath: "bounds")
-            basic3.fromValue = NSValue(CGRect: CGRectMake(0, 0, 4, 20))
-
-            basic3.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 4))
-            let scaleAnimation3 = CABasicAnimation(keyPath: "transform.rotation")
-            scaleAnimation3.toValue = 0
-
-            let new = rightDot.presentationLayer() as! CALayer
-            
-            scaleAnimation3.fromValue = new.valueForKeyPath("transform.rotation")
-            let animation3 = CAAnimationGroup()
-            animation3.animations = [scaleAnimation3, basic3]
-            animation3.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-            animation3.duration = 0.3
-            animation3.removedOnCompletion = false
-            animation3.fillMode = kCAFillModeForwards
-            rightDot.addAnimation(animation3, forKey: "animation")
-
-            let basic2 = CABasicAnimation(keyPath: "bounds")
-            basic2.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 4))
-            basic2.fromValue = NSValue(CGRect: CGRectMake(0, 0, 4, 20))
-
-            let scaleAnimation2 = CABasicAnimation(keyPath: "transform.rotation")
-            scaleAnimation2.toValue = 0;
-            let new2 = layer.presentationLayer() as! CALayer
-
-            scaleAnimation2.fromValue = new2.valueForKeyPath("transform.rotation")
-            
-
-
-            let animation2 = CAAnimationGroup()
-            animation2.animations = [scaleAnimation2, basic2]
-            animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-            animation2.duration = 0.3
-            animation2.removedOnCompletion = false
-            animation2.fillMode = kCAFillModeForwards
-            
-            layer.addAnimation(animation2, forKey: "animation")
-            rightDot.addAnimation(animation3, forKey: "animation")
-            
-            let touming = CABasicAnimation(keyPath: "opacity")
-            touming.fromValue = 0
-            touming.toValue = 1
-            touming.removedOnCompletion = false
-            touming.fillMode = kCAFillModeForwards
-            midLayer.addAnimation(touming, forKey: nil)
-
-            
-            
+        if button.showsMenu {
+            UIView.animateWithDuration(0.3) {
+                self.coverView.alpha = 1
+            }
+        } else {
+            UIView.animateWithDuration(0.3) {
+                self.coverView.alpha = 0
+            }
         }
-        else {
-            let basic = CABasicAnimation(keyPath: "bounds")
-            basic.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 20))
-            let scaleAnimation = CABasicAnimation(keyPath: "transform.rotation")
-            scaleAnimation.toValue = M_PI_4;
-            let animation = CAAnimationGroup()
-            animation.animations = [scaleAnimation, basic]
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-            animation.duration = 0.3
-            animation.fillMode = kCAFillModeForwards
-            animation.removedOnCompletion = false
-            
-            
-            let basic2 = CABasicAnimation(keyPath: "bounds")
-            basic2.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 20))
-            let scaleAnimation2 = CABasicAnimation(keyPath: "transform.rotation")
-            scaleAnimation2.toValue = -M_PI_4;
-            let animation2 = CAAnimationGroup()
-            animation2.animations = [scaleAnimation2, basic2]
-            animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-            animation2.duration = 0.3
-            animation2.removedOnCompletion = false
-            animation2.fillMode = kCAFillModeForwards
-            
-            layer.addAnimation(animation, forKey: "animation")
-            rightDot.addAnimation(animation2, forKey: "animation")
-            
-            
-            let touming = CABasicAnimation(keyPath: "opacity")
-            touming.fromValue = 1
-            touming.toValue = 0
-            touming.removedOnCompletion = false
-            touming.fillMode = kCAFillModeForwards
-
-            midLayer.addAnimation(touming, forKey: "opacity")
-        }
-        
-        
-        
-      overRight = !overRight
-        
     }
     
     
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
