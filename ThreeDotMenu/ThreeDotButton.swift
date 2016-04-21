@@ -16,8 +16,8 @@ class ThreeDotButton: UIButton {
     private var rightDotShape: CAShapeLayer!
     
     private var dotDiameter: CGFloat = 4
-    private var lineWidth: CGFloat = 2
-    private var margin: CGFloat = 1
+    private var lineWidth: CGFloat   = 2
+    private var margin: CGFloat      = 1
     
     var showsMenu: Bool = false {
         didSet {
@@ -44,13 +44,13 @@ class ThreeDotButton: UIButton {
         leftDotShape.anchorPoint = CGPointMake(0.5, 1)
         
         midDotShape = CAShapeLayer()
-        midDotShape.frame = CGRectMake(dotSpace + dotDiameter + 1, h - 5, 4, 4)
+        midDotShape.frame = CGRectMake(dotSpace + dotDiameter + 1, h - dotDiameter - margin, dotDiameter, dotDiameter)
         midDotShape.cornerRadius = 2
         midDotShape.backgroundColor = UIColor.grayColor().CGColor
         midDotShape.anchorPoint = CGPointMake(0.5, 1)
         
         rightDotShape = CAShapeLayer()
-        rightDotShape.frame = CGRectMake((dotSpace + dotDiameter) * 2  + 1, h - 5, 4, 4)
+        rightDotShape.frame = CGRectMake((dotSpace + dotDiameter) * 2  + 1, h - dotDiameter - margin, dotDiameter, dotDiameter)
         rightDotShape.cornerRadius = 2
         rightDotShape.backgroundColor = UIColor.grayColor().CGColor
         rightDotShape.anchorPoint = CGPointMake(0.5, 1)
