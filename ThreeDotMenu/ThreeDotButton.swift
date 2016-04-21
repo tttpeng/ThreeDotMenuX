@@ -16,6 +16,8 @@ class ThreeDotButton: UIButton {
     private var rightDotShape: CAShapeLayer!
     
     private var dotDiameter: CGFloat = 4
+    private var lineWidth: CGFloat = 2
+    private var margin: CGFloat = 1
     
     var showsMenu: Bool = false {
         didSet {
@@ -31,28 +33,24 @@ class ThreeDotButton: UIButton {
     func createLayersIfNeeded()  {
         
         let dotSpace = (frame.size.width - 14) / 2
-        
-        let w = self.bounds.size.width
         let h = self.bounds.size.height
-        
-        print()
 
         if leftDotShape == nil {
         leftDotShape = CAShapeLayer()
-        leftDotShape.frame = CGRectMake(1, h - 5, 4, 4)
+        leftDotShape.frame = CGRectMake(1, h - 5, dotDiameter, dotDiameter)
         leftDotShape.fillColor = UIColor.orangeColor().CGColor
         leftDotShape.backgroundColor = UIColor.grayColor().CGColor
         leftDotShape.cornerRadius = 2;
         leftDotShape.anchorPoint = CGPointMake(0.5, 1)
         
         midDotShape = CAShapeLayer()
-        midDotShape.frame = CGRectMake(dotSpace + dotDiameter + 1  , h-5, 4, 4)
+        midDotShape.frame = CGRectMake(dotSpace + dotDiameter + 1, h - 5, 4, 4)
         midDotShape.cornerRadius = 2
         midDotShape.backgroundColor = UIColor.grayColor().CGColor
         midDotShape.anchorPoint = CGPointMake(0.5, 1)
         
         rightDotShape = CAShapeLayer()
-        rightDotShape.frame = CGRectMake((dotSpace + dotDiameter) * 2  + 1, h-5, 4, 4)
+        rightDotShape.frame = CGRectMake((dotSpace + dotDiameter) * 2  + 1, h - 5, 4, 4)
         rightDotShape.cornerRadius = 2
         rightDotShape.backgroundColor = UIColor.grayColor().CGColor
         rightDotShape.anchorPoint = CGPointMake(0.5, 1)
@@ -74,45 +72,42 @@ class ThreeDotButton: UIButton {
         
         let w = self.bounds.size.width
         let h = self.bounds.size.height
-        let length = CGFloat(sqrt(pow((Float(w) - 7),2) + pow((Float(h) - 5),2)))
-
+        let lineLength = CGFloat(sqrt(pow((Float(w) - (Float(margin) * 2 + Float(dotDiameter) + 1)),2) + pow((Float(h) - Float(dotDiameter) - 1),2)))
+        let rotationAngle = atan((w - 2) / (h - 2));
         
-        let basic = CABasicAnimation(keyPath: "bounds")
-        basic.toValue = NSValue(CGRect: CGRectMake(0, 0, 2, length))
-        let scaleAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        scaleAnimation.toValue = atan((w - 2) / (h - 2));
-        let animation = CAAnimationGroup()
-        animation.animations = [scaleAnimation, basic]
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation.duration = 0.3
-        animation.fillMode = kCAFillModeForwards
-        animation.removedOnCompletion = false
+        let boundsAnimation = CABasicAnimation(keyPath: "bounds")
+        boundsAnimation.toValue = NSValue(CGRect: CGRectMake(0, 0, lineWidth, lineLength))
         
+        let leftRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        leftRotationAnimation.toValue = rotationAngle
         
-        let basic2 = CABasicAnimation(keyPath: "bounds")
-        basic2.toValue = NSValue(CGRect: CGRectMake(0, 0, 2, length))
-        let scaleAnimation2 = CABasicAnimation(keyPath: "transform.rotation")
-        scaleAnimation2.toValue = -atan((w - 2) / (h - 2));
-        let animation2 = CAAnimationGroup()
-        animation2.animations = [scaleAnimation2, basic2]
-        animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation2.duration = 0.3
-        animation2.removedOnCompletion = false
-        animation2.fillMode = kCAFillModeForwards
+        let leftAnimations = CAAnimationGroup()
+        leftAnimations.animations = [leftRotationAnimation, boundsAnimation]
+        leftAnimations.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        leftAnimations.duration = 0.3
+        leftAnimations.fillMode = kCAFillModeForwards
+        leftAnimations.removedOnCompletion = false
         
-        leftDotShape.addAnimation(animation, forKey: "animation")
-        rightDotShape.addAnimation(animation2, forKey: "animation")
+        let rightRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rightRotationAnimation.toValue = -rotationAngle
         
+        let rightAnimations = CAAnimationGroup()
+        rightAnimations.animations = [rightRotationAnimation, boundsAnimation]
+        rightAnimations.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        rightAnimations.duration = 0.3
+        rightAnimations.removedOnCompletion = false
+        rightAnimations.fillMode = kCAFillModeForwards
         
-        let touming = CABasicAnimation(keyPath: "opacity")
-        touming.fromValue = 1
-        touming.toValue = 0
-        touming.duration = 0.3
-        touming.removedOnCompletion = false
-        touming.fillMode = kCAFillModeForwards
+        let midAnimation = CABasicAnimation(keyPath: "opacity")
+        midAnimation.fromValue = 1
+        midAnimation.toValue = 0
+        midAnimation.duration = 0.3
+        midAnimation.removedOnCompletion = false
+        midAnimation.fillMode = kCAFillModeForwards
         
-        midDotShape.addAnimation(touming, forKey: "opacity")
-        
+        midDotShape.addAnimation(midAnimation, forKey: "opacity")
+        leftDotShape.addAnimation(leftAnimations, forKey: "animation")
+        rightDotShape.addAnimation(rightAnimations, forKey: "animation")
         
     }
     
@@ -125,57 +120,49 @@ class ThreeDotButton: UIButton {
 
         let w = self.bounds.size.width
         let h = self.bounds.size.height
-        let length = CGFloat(sqrt(pow((Float(w) - 6.0),2) + pow((Float(h) - 6.0),2)))
+        let lineLength = CGFloat(sqrt(pow((Float(w) - 7.0),2) + pow((Float(h) - 6.0),2)))
+        let rotationAngle = atan((w - 2) / (h - 2));
         
-        let basic3 = CABasicAnimation(keyPath: "bounds")
-        basic3.fromValue = NSValue(CGRect: CGRectMake(0, 0, 4, length))
-        basic3.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 4))
+        let boundsAnimation = CABasicAnimation(keyPath: "bounds")
+        boundsAnimation.fromValue = NSValue(CGRect: CGRectMake(0, 0, lineWidth, lineLength))
+        boundsAnimation.toValue = NSValue(CGRect: CGRectMake(0, 0, dotDiameter, dotDiameter))
         
-        let scaleAnimation3 = CABasicAnimation(keyPath: "transform.rotation")
-        scaleAnimation3.toValue = 0
-        let new = rightDotShape.presentationLayer() as! CALayer
-        scaleAnimation3.fromValue = -atan(w/h)
+        let leftRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        leftRotationAnimation.toValue = 0
+        leftRotationAnimation.fromValue = rotationAngle
         
-        let animation3 = CAAnimationGroup()
-        animation3.animations = [scaleAnimation3, basic3]
-        animation3.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation3.duration = 0.3
-        animation3.removedOnCompletion = false
-        animation3.fillMode = kCAFillModeForwards
-        rightDotShape.addAnimation(animation3, forKey: "animation")
-        
-        let basic2 = CABasicAnimation(keyPath: "bounds")
-        basic2.toValue = NSValue(CGRect: CGRectMake(0, 0, 4, 4))
-        basic2.fromValue = NSValue(CGRect: CGRectMake(0, 0, 4, length))
-        
-        let scaleAnimation2 = CABasicAnimation(keyPath: "transform.rotation")
-        scaleAnimation2.toValue = 0;
-        let new2 = atan(w/h)
-//            layer.presentationLayer() as! CALayer
-        
-        scaleAnimation2.fromValue = new2
+        let leftAnimations = CAAnimationGroup()
+        leftAnimations.animations = [leftRotationAnimation, boundsAnimation]
+        leftAnimations.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        leftAnimations.duration = 0.3
+        leftAnimations.removedOnCompletion = false
+        leftAnimations.fillMode = kCAFillModeForwards
+        rightDotShape.addAnimation(leftAnimations, forKey: "animation")
         
         
+        let rightRotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rightRotationAnimation.toValue = 0;
+        rightRotationAnimation.fromValue = -rotationAngle
         
-        let animation2 = CAAnimationGroup()
-        animation2.animations = [scaleAnimation2, basic2]
-        animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation2.duration = 0.3
-        animation2.removedOnCompletion = false
-        animation2.fillMode = kCAFillModeForwards
         
-        leftDotShape.addAnimation(animation2, forKey: "animation")
-        rightDotShape.addAnimation(animation3, forKey: "animation")
+        let rightAnimations = CAAnimationGroup()
+        rightAnimations.animations = [rightRotationAnimation, boundsAnimation]
+        rightAnimations.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        rightAnimations.duration = 0.3
+        rightAnimations.removedOnCompletion = false
+        rightAnimations.fillMode = kCAFillModeForwards
         
-        let touming = CABasicAnimation(keyPath: "opacity")
-        touming.fromValue = 0
-        touming.toValue = 1
-        touming.removedOnCompletion = false
-        touming.fillMode = kCAFillModeForwards
-        midDotShape.addAnimation(touming, forKey: nil)
+        leftDotShape.addAnimation(leftAnimations, forKey: "animation")
+        rightDotShape.addAnimation(rightAnimations, forKey: "animation")
+        
+        let midAnimation = CABasicAnimation(keyPath: "opacity")
+        midAnimation.fromValue = 0
+        midAnimation.toValue = 1
+        midAnimation.removedOnCompletion = false
+        midAnimation.fillMode = kCAFillModeForwards
+        midDotShape.addAnimation(midAnimation, forKey: nil)
         
     }
-    
     
     override func layoutSubviews() {
         createLayersIfNeeded()

@@ -33,8 +33,6 @@ class ViewController: UIViewController {
         
         let button = ThreeDotButton()
         button.frame = CGRectMake(self.view.frame.size.width - 15 - 22, 30, 22, 22)
-//        button.backgroundColor = UIColor.greenColor()
-        
         button.addTarget(self, action: #selector(buttonTap(_:)), forControlEvents: .TouchUpInside)
         self.view.addSubview(button)
         
@@ -56,8 +54,6 @@ class ViewController: UIViewController {
         coverView.addSubview(contentLabel)
         
 
-        
-
     }
     
     
@@ -76,8 +72,6 @@ class ViewController: UIViewController {
         }
     }
     
-    
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
